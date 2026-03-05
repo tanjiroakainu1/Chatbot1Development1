@@ -4,7 +4,7 @@ import { EXTRA_INFO_FOR_AI } from '@/constants/extraInfo'
 
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models'
 
-/** Image-capable model first, then text-only fallbacks. */
+/** Image-capable model first, then stable text fallbacks. gemini-pro is deprecated for v1beta. */
 const MODEL_FALLBACK_LIST = [
   'gemini-2.0-flash-exp',
   'gemini-2.5-flash',
@@ -12,7 +12,6 @@ const MODEL_FALLBACK_LIST = [
   'gemini-1.5-flash',
   'gemini-1.5-flash-8b',
   'gemini-1.5-pro',
-  'gemini-pro',
 ] as const
 
 const IMAGE_CAPABLE_MODEL = 'gemini-2.0-flash-exp'
