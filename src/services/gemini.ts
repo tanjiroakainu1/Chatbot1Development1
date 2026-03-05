@@ -2,19 +2,26 @@ import type { ChatMessage } from '@/types/chat'
 import type { GeminiGenerateRequest, GeminiGenerateResponse, GeminiResponsePart } from '@/types/gemini'
 import { EXTRA_INFO_FOR_AI } from '@/constants/extraInfo'
 
-const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models'
+const GEMINI_API_BASE_V1 = 'https://generativelanguage.googleapis.com/v1/models'
+const GEMINI_API_BASE_V1BETA = 'https://generativelanguage.googleapis.com/v1beta/models'
 
-/** Image-capable model first, then stable text fallbacks. gemini-pro is deprecated for v1beta. */
+/** Try v1 (stable) first with current model names; then v1beta. Many older IDs (e.g. gemini-1.5-pro) are deprecated. */
 const MODEL_FALLBACK_LIST = [
-  'gemini-2.0-flash-exp',
   'gemini-2.5-flash',
   'gemini-2.0-flash',
+  'gemini-1.5-flash-latest',
+  'gemini-1.5-pro-latest',
   'gemini-1.5-flash',
   'gemini-1.5-flash-8b',
   'gemini-1.5-pro',
+  'gemini-2.0-flash-exp',
 ] as const
 
 const IMAGE_CAPABLE_MODEL = 'gemini-2.0-flash-exp'
+
+function getBaseUrl(model: string): string {
+  return model.includes('-exp') ? GEMINI_API_BASE_V1BETA : GEMINI_API_BASE_V1
+}
 
 function getApiKey(): string {
   const key = import.meta.env.VITE_GEMINI_API_KEY
@@ -105,7 +112,8 @@ export async function sendToGemini(
 
   for (const model of MODEL_FALLBACK_LIST) {
     try {
-      const url = `${GEMINI_API_BASE}/${model}:generateContent?key=${apiKey}`
+      const base = getBaseUrl(model)
+      const url = `${base}/${model}:generateContent?key=${apiKey}`
       const body: Record<string, unknown> = { ...SYSTEM_INSTRUCTION, contents }
       if (model === IMAGE_CAPABLE_MODEL) {
         body.generationConfig = { responseModalities: ['TEXT', 'IMAGE'] }
