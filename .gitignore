@@ -1,0 +1,16 @@
+# Dependencies
+node_modules
+
+# Build
+dist
+*.local
+
+# Env (do not commit real API keys)
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.DS_Store
+*.log
+*.tsbuildinfo

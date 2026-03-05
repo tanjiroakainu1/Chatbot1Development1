@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" role="img">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <!-- Chat bubble -->
+  <path fill="url(#bg)" d="M8 4h40c2.2 0 4 1.8 4 4v28c0 2.2-1.8 4-4 4H20l-8 8V8c0-2.2 1.8-4 4-4z"/>
+  <!-- Left eye (anime style) -->
+  <ellipse cx="22" cy="26" rx="6" ry="8" fill="#1e1b4b"/>
+  <ellipse cx="23" cy="24" rx="2.5" ry="3" fill="#c7d2fe"/>
+  <!-- Right eye -->
+  <ellipse cx="42" cy="26" rx="6" ry="8" fill="#1e1b4b"/>
+  <ellipse cx="43" cy="24" rx="2.5" ry="3" fill="#c7d2fe"/>
+  <!-- Smile -->
+  <path fill="none" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" d="M26 38 Q32 44 38 38"/>
+  <!-- Blush -->
+  <ellipse cx="16" cy="32" rx="3" ry="2" fill="#818cf8" opacity="0.5"/>
+  <ellipse cx="48" cy="32" rx="3" ry="2" fill="#818cf8" opacity="0.5"/>
+  <!-- Sparkle (anime/AI accent) -->
+  <path fill="#fbbf24" d="M52 10l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4z"/>
+  <path fill="#c7d2fe" d="M10 14l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z"/>
+</svg>
