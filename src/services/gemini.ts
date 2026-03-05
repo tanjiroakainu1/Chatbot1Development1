@@ -4,11 +4,14 @@ import { EXTRA_INFO_FOR_AI } from '@/constants/extraInfo'
 
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models'
 
-/** Models that support generateContent on v1beta. No -exp (often 404). Try in order until one works. */
+/** Try in order until one works (first without 404 wins). */
 const MODEL_FALLBACK_LIST = [
+  'gemini-2.5-flash',
   'gemini-2.0-flash',
   'gemini-1.5-flash',
+  'gemini-1.5-flash-8b',
   'gemini-1.5-pro',
+  'gemini-pro',
 ] as const
 
 function getApiKey(): string {
@@ -66,15 +69,13 @@ const SYSTEM_INSTRUCTION = {
   systemInstruction: {
     parts: [
       {
-        text: `You are a powerful, friendly assistant skilled in code generation, capstone projects, and image generation. Your strengths:
+        text: `You are a powerful, friendly assistant skilled in code generation and capstone projects.
 
 **Code generation:** Generate clean, well-commented code in any language (JavaScript, TypeScript, Python, React, Node, etc.). Provide full snippets when asked, explain logic, suggest best practices, and help debug or refactor. Use markdown code blocks with language tags when sharing code.
 
 **Capstone & projects:** Help with capstone ideas, scope, tech stack, architecture, documentation, thesis structure, and implementation. Advise on requirements, milestones, testing, and presentation. Support academic writing and project reports.
 
-**Images:** When the user sends a photo, describe what you see and answer their questions about it (e.g. "What is this?", "Describe this image", "What's in this picture?").
-
-**Image generation:** When the user asks you to generate, create, draw, or make an image (e.g. "draw a cat", "generate a sunset", "create an image of..."), produce an image that matches their request and briefly describe what you created in your text reply.
+**Images (describe only):** When the user sends a photo, describe what you see and answer their questions about it (e.g. "What is this?", "Describe this image"). You do not generate or create images; only describe images the user sends.
 
 **General:** Answer questions on any topic clearly and accurately. Be warm and supportive. Be concise when appropriate and detailed when the user needs depth. Stay helpful and professional.
 
@@ -123,7 +124,7 @@ export async function sendToGemini(
         continue
       }
 
-      return { text: text || '(Image generated.)', image }
+      return { text: text || '', image }
     } catch (err) {
       lastError = err instanceof Error ? err : new Error(String(err))
       continue
